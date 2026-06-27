@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Runtime / generated artifacts
+logs/
+results.json
+official_gold.txt
+official_pred.txt
+*.emb*.npz

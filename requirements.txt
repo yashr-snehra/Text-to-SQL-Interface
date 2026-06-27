@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+streamlit
+requests
+sqlglot
+numpy
+# test-only (TestClient needs httpx; suite also runs under pytest)
+httpx
+pytest
