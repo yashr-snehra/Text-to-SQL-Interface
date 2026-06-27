@@ -263,6 +263,13 @@ def _stub_llm(sql):
     return orig
 
 
+def test_api_root_points_to_ui():
+    r = TestClient(api.app).get("/")
+    assert r.status_code == 200
+    body = r.json()
+    assert "8501" in body["ui"] and "/generate" in body["endpoints"]
+
+
 def test_api_health_and_schema():
     c = TestClient(api.app)
     assert c.get("/health").json()["ok"] is True

@@ -52,12 +52,14 @@ if (-not $SkipSetup) {
 if (-not (Test-Path $venvPython)) { throw "No .venv found. Run once without -SkipSetup first." }
 
 # 5. Backend (background) + frontend (foreground). Ctrl+C stops both.
-Write-Host "Starting FastAPI on http://localhost:8000 ..."
+Write-Host "Starting FastAPI (API only) on http://localhost:8000 ..."
 $api = Start-Process -PassThru -FilePath $venvPython -ArgumentList @("-m", "uvicorn", "api:app", "--port", "8000")
 try {
     Start-Sleep -Seconds 2
-    Write-Host "Starting Streamlit (Ctrl+C to stop) ..."
-    & $venvPython -m streamlit run app.py
+    Write-Host "Starting Streamlit UI on http://localhost:8501 (Ctrl+C to stop) ..."
+    Write-Host "  -> Open the UI at http://localhost:8501  (8000 is the API, not the app)"
+    # --server.headless true skips Streamlit's first-run 'email' prompt that otherwise blocks startup.
+    & $venvPython -m streamlit run app.py --server.headless true
 } finally {
     if ($api -and -not $api.HasExited) { Stop-Process -Id $api.Id -Force }
 }

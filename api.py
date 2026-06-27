@@ -144,6 +144,17 @@ def _materialize(schema_sql):
     return path
 
 
+@app.get("/")
+def index():
+    """The root is the JSON API; the web UI is the Streamlit app (port 8501)."""
+    return {
+        "service": "Text-to-SQL API",
+        "ui": "run `streamlit run app.py` -> http://localhost:8501",
+        "docs": "/docs",
+        "endpoints": ["/health", "/schema", "/generate"],
+    }
+
+
 @app.get("/health")
 def health():
     return {"ok": True, "model": os.environ.get("OLLAMA_MODEL", "qwen2.5-coder:14b")}
